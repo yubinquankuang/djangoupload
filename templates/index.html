@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<a href="{% url 'upfile:upmysql' %}">连接数据</a>
+<form method="post" enctype="multipart/form-data">
+	<input id="upfile"  type="file" name = "fileup">
+	<input type="button" id="showyulan" value="上传">
+</form>
+
+<script
+            src="https://code.jquery.com/jquery-1.12.4.min.js"
+            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+            crossorigin="anonymous"></script>
+<script>
+   $('#showyulan').click(function () {
+        var formData = new FormData();
+        var file_info = document.getElementById("upfile").files[0]
+        formData.append('upfile', file_info);
+        if(file_info == undefined){
+            alert("你没有选择任何文件");
+            return false;
+        }
+
+        $.ajax({
+                url:"/upload/",
+                type:"POST",
+                data:formData,
+                processData:false,
+                contentType:false,
+                success: function (data) {
+                    alert(data.msg[0].d);
+                }
+        })
+    })
+
+</script>
+</body>
+</html>

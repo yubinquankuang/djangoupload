@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>上传文件连接数据库</title>
+</head>
+<body>
+<form method="post" enctype="multipart/form-data">
+    <div>
+        <div>
+            <input type="text" id="pname" name="pname">
+        </div>
+        <div>
+            <input type="text" id="version" name="version">
+        </div>
+        <div>
+            <input id="pfile" type="file" name="pfile">
+        </div>
+        <div>
+            <input type="button" id="showyulan" value="上传">
+        </div>
+    </div>
+</form>
+<script
+        src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+        crossorigin="anonymous"></script>
+<script>
+    $('#showyulan').click(function () {
+        var formData = new FormData();
+        var pname = $("#pname").val();
+        var version = $("#version").val();
+        var file_info = document.getElementById("pfile").files[0];
+        console.log(pname);
+        console.log(version);
+        formData.append('pfile', file_info);
+        formData.append("pname", pname);
+        formData.append("version", version);
+        if (file_info == undefined) {
+            alert("你没有选择任何文件");
+            return false;
+        }
+
+        $.ajax({
+            url: "/upmysql/",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                alert(data.analy);
+            }
+        })
+    });
+</script>
+
+</body>
+</html>
